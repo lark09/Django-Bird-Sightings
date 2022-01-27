@@ -3,21 +3,39 @@
 
 <h1>Bird Details</h1>
 
-<div class="card">
-  <div class="card-content">
-    <span class="card-title">{{ bird.name }}</span>
-    <p>Family: {{ bird.family }}</p>
-    <p>Description: {{ bird.description }}</p>
-    {% if bird.age > 0 %}
-      <p>Age: {{ bird.age }}</p>
-    {% else %}
-      <p>Age: Juvenile</p>
-    {% endif %}
+<div class="row">
+  <div class="col s6">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{ bird.name }}</span>
+        <p>Family: {{ bird.family }}</p>
+        <p>Description: {{ bird.description }}</p>
+        {% if bird.age > 0 %}
+          <p>Age: {{ bird.age }}</p>
+        {% else %}
+          <p>Age: Juvenile</p>
+        {% endif %}
+      </div>
+      <div class="card-action">
+        <a href="{% url 'birds_update' bird.id %}">Edit</a>
+        <a href="{% url 'birds_delete' bird.id %}">Delete</a>
+      </div>
+    </div>
   </div>
-  <div class="card-action">
-    <a href="{% url 'birds_update' bird.id %}">Edit</a>
-    <a href="{% url 'birds_delete' bird.id %}">Delete</a>
+  <div class="col s6">
+    <table class="striped">
+      <thead>
+        <tr><th>Date</th><th>Sighting</th></tr>
+      </thead>
+      <tbody>
+        {% for sighting in bird.sighting_set.all %}
+          <tr>
+            <td>{{sighting.date}}</td>
+            <td>{{sighting.get_sighting_display}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 </div>
-
 {% endblock %}
